@@ -12,12 +12,11 @@ from utils import (
     ModelTask,
     build_model_name,
     failed_runtime,
-    incorrect_result,
 )
-
+from third_party.tt_forge_models.opt.causal_lm.jax import ModelVariant
 from ..tester import OPTTester
 
-MODEL_PATH = "facebook/opt-2.7b"
+VARIANT_NAME = ModelVariant._2_7B
 MODEL_NAME = build_model_name(
     Framework.JAX,
     "opt",
@@ -32,12 +31,12 @@ MODEL_NAME = build_model_name(
 
 @pytest.fixture
 def inference_tester() -> OPTTester:
-    return OPTTester(MODEL_PATH)
+    return OPTTester(VARIANT_NAME)
 
 
 @pytest.fixture
 def training_tester() -> OPTTester:
-    return OPTTester(MODEL_PATH, run_mode=RunMode.TRAINING)
+    return OPTTester(VARIANT_NAME, run_mode=RunMode.TRAINING)
 
 
 # ----- Tests -----
