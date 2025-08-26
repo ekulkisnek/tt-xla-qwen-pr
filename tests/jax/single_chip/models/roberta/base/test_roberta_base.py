@@ -11,13 +11,12 @@ from utils import (
     ModelSource,
     ModelTask,
     build_model_name,
-    failed_fe_compilation,
     incorrect_result,
 )
-
+from third_party.tt_forge_models.roberta.masked_lm.jax import ModelVariant
 from ..tester import FlaxRobertaForMaskedLMTester
 
-MODEL_PATH = "FacebookAI/roberta-base"
+VARIANT_NAME = ModelVariant.BASE
 MODEL_NAME = build_model_name(
     Framework.JAX,
     "roberta",
@@ -31,12 +30,12 @@ MODEL_NAME = build_model_name(
 
 @pytest.fixture
 def inference_tester() -> FlaxRobertaForMaskedLMTester:
-    return FlaxRobertaForMaskedLMTester(MODEL_PATH)
+    return FlaxRobertaForMaskedLMTester(VARIANT_NAME)
 
 
 @pytest.fixture
 def training_tester() -> FlaxRobertaForMaskedLMTester:
-    return FlaxRobertaForMaskedLMTester(MODEL_PATH, RunMode.TRAINING)
+    return FlaxRobertaForMaskedLMTester(VARIANT_NAME, RunMode.TRAINING)
 
 
 # ----- Tests -----
@@ -52,7 +51,7 @@ def training_tester() -> FlaxRobertaForMaskedLMTester:
 )
 @pytest.mark.xfail(
     reason=incorrect_result(
-        "Atol comparison failed. Calculated: atol=131044.359375. Required: atol=0.16 "
+        "PCC comparison failed. Calculated: pcc=0.9297618269920349. Required: pcc=0.99. "
         "https://github.com/tenstorrent/tt-xla/issues/379"
     )
 )

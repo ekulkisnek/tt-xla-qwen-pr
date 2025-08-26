@@ -12,10 +12,10 @@ from utils import (
     ModelTask,
     build_model_name,
 )
-
+from third_party.tt_forge_models.roberta.masked_lm.jax import ModelVariant
 from ..tester import FlaxRobertaForMaskedLMTester
 
-MODEL_PATH = "FacebookAI/roberta-large"
+VARIANT_NAME = ModelVariant.LARGE
 MODEL_NAME = build_model_name(
     Framework.JAX,
     "roberta",
@@ -29,12 +29,12 @@ MODEL_NAME = build_model_name(
 
 @pytest.fixture
 def inference_tester() -> FlaxRobertaForMaskedLMTester:
-    return FlaxRobertaForMaskedLMTester(MODEL_PATH)
+    return FlaxRobertaForMaskedLMTester(VARIANT_NAME)
 
 
 @pytest.fixture
 def training_tester() -> FlaxRobertaForMaskedLMTester:
-    return FlaxRobertaForMaskedLMTester(MODEL_PATH, RunMode.TRAINING)
+    return FlaxRobertaForMaskedLMTester(VARIANT_NAME, RunMode.TRAINING)
 
 
 # ----- Tests -----
