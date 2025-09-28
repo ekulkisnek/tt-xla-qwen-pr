@@ -49,7 +49,11 @@ class TorchDeviceRunner(DeviceRunner):
         if workload.model is not None:
             workload.model.to(device)
 
-        if workload.compiled_executable is not None:
+        # The executable might be a single torch op if the test being called is an op test, in which case
+        # it will not have the "to" method and theres no weights which will need to be moved to the device, only inputs.
+        if workload.compiled_executable is not None and hasattr(
+            workload.compiled_executable, "to"
+        ):
             workload.compiled_executable.to(device)
 
         return Workload(
