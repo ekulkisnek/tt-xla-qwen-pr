@@ -76,7 +76,7 @@ class TorchComparator(Comparator):
             pcc = min(flat_pccs)
             assert pcc >= pcc_config.required_pcc, (
                 f"PCC comparison failed. "
-                f"Calculated: pcc={pcc}. Required: pcc={pcc_config.required_pcc}."
+                f"Calculated: pcc={flat_pccs}. Required: pcc={pcc_config.required_pcc}."
             )
 
     # @override
